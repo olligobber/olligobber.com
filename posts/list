@@ -1,22 +1,22 @@
-name: Test Post 4
+title: Test Post 4
 description: This is the fourth test post, to test the template.
 date: 31st August 2025
 path: test4
 tags: test
 
-name: Test Post 3
+title: Test Post 3
 description: This is the third test post, to test the template.
 date: 1st January 2025
 path: test3
 tags: test
 
-name: Test Post 2
+title: Test Post 2
 description: This is the second test post, to test the template.
 date: 1st January 1970
 path: test2
 tags: test
 
-name: Test Post
+title: Test Post
 description: First post! Just kidding, it's just a test.
 date: 1st January 1900
 path: test

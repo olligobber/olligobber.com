@@ -9,6 +9,17 @@ body
 	color: #333;
 }
 
+h3 a
+{
+	color: #333;
+	text-decoration: none;
+}
+
+h3 a:hover
+{
+	text-decoration: underline;
+}
+
 nav
 {
 	position: fixed;
@@ -116,7 +127,7 @@ main
 	gap: 0.5em;
 }
 
-.post .tags > *
+.tag
 {
 	background-color: #d57fd5;
 	border-color: #333;
@@ -125,8 +136,14 @@ main
 	border-style: solid;
 	padding: 0.25em;
 	font-size: 0.8em;
+	color: #333;
+	text-decoration: none;
 }
 
+.tag:hover
+{
+	text-decoration: underline;
+}
 
 .more
 {

@@ -14,5 +14,6 @@ executable sitegenerator
 	build-depends:
 		base ^>= 4.17.2.0,
 		directory ^>= 1.3.9.0,
+		split ^>= 0.2.5,
 	hs-source-dirs: app
 	default-language: Haskell2010
