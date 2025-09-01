@@ -7,7 +7,8 @@ import Data.List (intercalate)
 import Data.List.Split (splitOn)
 import Data.Map (Map)
 import qualified Data.Map as M
-import System.Directory (copyFile, createDirectoryIfMissing)
+import System.Directory (copyFile, createDirectoryIfMissing, removeFile)
+import System.Process (callProcess)
 
 data Post = Post
 	{ title :: String
@@ -141,6 +142,31 @@ writeTaggedPosts templates tagmap = M.foldMapWithKey writeOne tagmap where
 		writeFile ("docs/tag/" <> tag <> "/index.html") $
 			makeTaggedPosts templates tag posts
 
+extractBody :: String -> String
+extractBody = head . splitOn "</body>" . head . tail . splitOn "<body>"
+
+compilePost :: Templates -> Post -> IO ()
+compilePost templates post = do
+	callProcess "typst"
+		[ "c"
+		, "--features"
+		, "html"
+		, "--format"
+		, "html"
+		, "posts/" <> path post <> "/main.typ"
+		]
+	html <- extractBody <$> readFile ("posts/" <> path post <> "/main.html")
+	createDirectoryIfMissing True $ "docs/" <> path post
+	writeFile ("docs/" <> path post <> "/index.html") $
+		substitute "{title}" (title post) $
+		substitute "{date}" (date post) $
+		substitute "{tags}" (foldMap (makeTagLink templates) $ tags post) $
+		substitute "{path}" (path post) $
+		substitute "{description}" (description post) $
+		substitute "{content}" html $
+		postPage templates
+	removeFile ("posts/" <> path post <> "/main.html")
+
 -- Copy all the static files to the right places
 copyStatic :: IO ()
 copyStatic = do
@@ -157,7 +183,7 @@ main = do
 	putStrLn "Starting setup of website"
 	parsedPosts <- parsePosts <$> readFile "posts/list"
 	posts <- case parsedPosts of
-		Left e -> error $ "Error reading lift of posts in posts/list:\n" <> e
+		Left e -> error $ "Error reading list of posts in posts/list:\n" <> e
 		Right x -> pure x
 	templates <- loadTemplates
 	copyStatic
@@ -168,4 +194,5 @@ main = do
 	createDirectoryIfMissing False "docs/tags"
 	writeFile "docs/tags/index.html" $ makeAllTags templates $ M.keys tagmap
 	writeTaggedPosts templates tagmap
+	foldMap (compilePost templates) posts
 	putStrLn "Done!"
