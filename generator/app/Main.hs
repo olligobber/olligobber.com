@@ -112,7 +112,7 @@ makeAllPosts templates posts =
 		postsList = foldMap (makePostDiv templates) posts
 
 collectTags :: [Post] -> Map String [Post]
-collectTags = M.fromListWith (<>) . concatMap tagPost where
+collectTags = M.fromListWith (flip (<>)) . concatMap tagPost where
 	tagPost post = (\x -> (x, [post])) <$> tags post
 
 makeBigTag :: Templates -> String -> String
@@ -125,6 +125,21 @@ makeAllTags :: Templates -> [String] -> String
 makeAllTags templates tags =
 	substitute "{tags}" (foldMap (makeBigTag templates) tags) $
 	allTags templates
+
+makeTaggedPosts :: Templates -> String -> [Post] -> String
+makeTaggedPosts templates tag posts =
+	substitute "{tag}" tag $
+	substitute "{posts}" renderedPosts $
+	taggedPosts templates
+	where
+		renderedPosts = foldMap (makePostDiv templates) posts
+
+writeTaggedPosts :: Templates -> Map String [Post] -> IO ()
+writeTaggedPosts templates tagmap = M.foldMapWithKey writeOne tagmap where
+	writeOne tag posts = do
+		createDirectoryIfMissing True $ "docs/tag/" <> tag
+		writeFile ("docs/tag/" <> tag <> "/index.html") $
+			makeTaggedPosts templates tag posts
 
 -- Copy all the static files to the right places
 copyStatic :: IO ()
@@ -152,4 +167,5 @@ main = do
 	let tagmap = collectTags posts
 	createDirectoryIfMissing False "docs/tags"
 	writeFile "docs/tags/index.html" $ makeAllTags templates $ M.keys tagmap
+	writeTaggedPosts templates tagmap
 	putStrLn "Done!"
