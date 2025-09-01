@@ -5,6 +5,8 @@ module Main where
 import Data.Either (partitionEithers)
 import Data.List (intercalate)
 import Data.List.Split (splitOn)
+import Data.Map (Map)
+import qualified Data.Map as M
 import System.Directory (copyFile, createDirectoryIfMissing)
 
 data Post = Post
@@ -54,6 +56,7 @@ data Templates = Templates
 	, postPage :: String
 	, tagLink :: String
 	, taggedPosts :: String
+	, tagBig :: String
 	}
 
 loadTemplates :: IO Templates
@@ -65,7 +68,17 @@ loadTemplates = do
 	postPage <- readFile "templates/post.html"
 	tagLink <- readFile "templates/tag.html"
 	taggedPosts <- readFile "templates/tagged_posts.html"
-	pure $ Templates {allPosts, allTags, homePage, postDiv, postPage, tagLink, taggedPosts}
+	tagBig <- readFile "templates/tag_big.html"
+	pure $ Templates
+		{ allPosts
+		, allTags
+		, homePage
+		, postDiv
+		, postPage
+		, tagLink
+		, taggedPosts
+		, tagBig
+		}
 
 substitute :: Eq a => [a] -> [a] -> [a] -> [a]
 substitute pattern replacement template =
@@ -93,6 +106,26 @@ makeHomePage templates posts =
 	substitute "{posts}" recentPosts $ homePage templates where
 		recentPosts = foldMap (makePostDiv templates) $ take 3 posts
 
+makeAllPosts :: Templates -> [Post] -> String
+makeAllPosts templates posts =
+	substitute "{posts}" postsList $ allPosts templates where
+		postsList = foldMap (makePostDiv templates) posts
+
+collectTags :: [Post] -> Map String [Post]
+collectTags = M.fromListWith (<>) . concatMap tagPost where
+	tagPost post = (\x -> (x, [post])) <$> tags post
+
+makeBigTag :: Templates -> String -> String
+makeBigTag templates tag =
+	substitute "{url}" ("/tag/" <> tag) $
+	substitute "{name}" tag $
+	tagBig templates
+
+makeAllTags :: Templates -> [String] -> String
+makeAllTags templates tags =
+	substitute "{tags}" (foldMap (makeBigTag templates) tags) $
+	allTags templates
+
 -- Copy all the static files to the right places
 copyStatic :: IO ()
 copyStatic = do
@@ -106,6 +139,7 @@ copyStatic = do
 
 main :: IO ()
 main = do
+	putStrLn "Starting setup of website"
 	parsedPosts <- parsePosts <$> readFile "posts/list"
 	posts <- case parsedPosts of
 		Left e -> error $ "Error reading lift of posts in posts/list:\n" <> e
@@ -113,3 +147,9 @@ main = do
 	templates <- loadTemplates
 	copyStatic
 	writeFile "docs/index.html" $ makeHomePage templates posts
+	createDirectoryIfMissing False "docs/posts"
+	writeFile "docs/posts/index.html" $ makeAllPosts templates posts
+	let tagmap = collectTags posts
+	createDirectoryIfMissing False "docs/tags"
+	writeFile "docs/tags/index.html" $ makeAllTags templates $ M.keys tagmap
+	putStrLn "Done!"
