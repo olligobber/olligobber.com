@@ -74,17 +74,19 @@ nav
 	gap: 0.5em;
 	background: #d57fd5;
 	border-bottom: #333 solid;
+	height: 2.6em;
 	max-height: 2.6em;
 	overflow-y: hidden;
 }
 
-@media(max-width: 1012px) {
+@media(max-width: 767px) {
 	body
 	{
 		padding-top: 5.2em;
 	}
 	nav
 	{
+		height: 5.2em;
 		max-height: 5.2em;
 	}
 }
@@ -142,7 +144,7 @@ main
 	max-width: 45em;
 	margin-left: auto;
 	margin-right: auto;
-	padding: 0.5em;
+	padding: 0.5em 1em;
 }
 
 .post-header
@@ -164,6 +166,17 @@ main
 .post
 {
 	padding-bottom: 1em;
+}
+
+.post a
+{
+	color: #333;
+	text-decoration: none;
+}
+
+.post a:hover
+{
+	text-decoration: underline;
 }
 
 .post .header
