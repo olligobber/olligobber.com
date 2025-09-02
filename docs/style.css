@@ -1,15 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libertinus+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
 
 body
 {
 	padding-top: 2.6em;
 	margin: 0;
 	font-size: 0.4cm;
-	font-family: "Fira Sans", sans-serif;
+	font-family: "Libertinus Serif";
 	color: #333;
-	width: 50vw;
-	height: 45vh;
-	zoom: 2;
+	width: 62.5vw;
+	overflow-x: hidden;
+	zoom: 1.6;
+	text-align: justify;
 }
 
 h3 a

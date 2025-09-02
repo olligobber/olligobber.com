@@ -1,4 +1,4 @@
-#set text(fill: rgb(51,51,51), font: "Fira Sans");
+#set text(fill: rgb(0x33,0x33,0x33));
 #show math.equation.where(block: false): it => html.elem("div", attrs: (class:"inline-typst"), html.frame(it))
 #show math.equation.where(block: true): it => html.elem("div", attrs: (class:"block-typst"), html.frame(it))
 
