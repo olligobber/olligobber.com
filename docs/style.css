@@ -38,9 +38,9 @@ body
 	font-size: 0.4cm;
 	font-family: "Libertinus Serif", serif;
 	color: #333;
-	width: 62.5vw;
+	width: calc(500/9)vw;
 	overflow-x: hidden;
-	zoom: 1.6;
+	zoom: calc(9/5);
 	text-align: justify;
 }
 
