@@ -1,4 +1,4 @@
-{-# LANGUAGE NamedFieldPuns #-}
+{-# LANGUAGE NamedFieldPuns, OverloadedStrings #-}
 
 module Main where
 
@@ -7,16 +7,37 @@ import Data.List (intercalate)
 import Data.List.Split (splitOn)
 import Data.Map (Map)
 import qualified Data.Map as M
+import Data.Maybe (fromJust)
+import Data.String (fromString)
+import qualified Data.Text.Lazy.IO as TIO
+import Data.Time.Calendar.OrdinalDate (Day)
+import Data.Time.Format (formatTime, defaultTimeLocale, parseTimeM)
 import System.Directory (copyFile, createDirectoryIfMissing, removeFile)
 import System.Process (callProcess)
+import qualified Text.Atom.Feed as F
+import Text.Feed.Export (textFeed)
+import Text.Feed.Types (Feed(AtomFeed))
 
 data Post = Post
 	{ title :: String
 	, description :: String
-	, date :: String
+	, date :: Day
 	, path :: String
 	, tags :: [String]
 	}
+
+ordinal :: String -> String
+ordinal s
+	| last (take 2 $ reverse s) == '1' = s <> "th"
+	| last s == '1' = s <> "st"
+	| last s == '2' = s <> "nd"
+	| last s == '3' = s <> "rd"
+	| otherwise = s <> "th"
+
+showDate :: Day -> String
+showDate d =
+	ordinal (formatTime defaultTimeLocale "%e" d) <>
+	formatTime defaultTimeLocale " %B %Y" d
 
 parsePost :: String -> Either String Post
 parsePost input = do
@@ -32,7 +53,9 @@ parsePost input = do
 		("description:", x) -> Right $ tail x
 		_ -> Left "Second line in post should be description"
 	date <- case span (/= ' ') dateLine of
-		("date:", x) -> Right $ tail x
+		("date:", x) -> case parseTimeM True defaultTimeLocale "%Y/%m/%d" x of
+			Nothing -> Left "Failed to parse date"
+			Just x -> Right x
 		_ -> Left "Third line in post should be date"
 	path <- case span (/= ' ') pathLine of
 		("path:", x) -> Right $ tail x
@@ -95,7 +118,7 @@ makePostDiv :: Templates -> Post -> String
 makePostDiv templates post =
 	substitute "{url}" ("/" <> path post) $
 	substitute "{name}" (title post) $
-	substitute "{date}" (date post) $
+	substitute "{date}" (showDate $ date post) $
 	substitute "{description}" (description post) $
 	substitute "{tags}" allTags $
 	postDiv templates
@@ -159,7 +182,7 @@ compilePost templates post = do
 	createDirectoryIfMissing True $ "docs/" <> path post
 	writeFile ("docs/" <> path post <> "/index.html") $
 		substitute "{title}" (title post) $
-		substitute "{date}" (date post) $
+		substitute "{date}" (showDate $ date post) $
 		substitute "{tags}" (foldMap (makeTagLink templates) $ tags post) $
 		substitute "{path}" (path post) $
 		substitute "{description}" (description post) $
@@ -184,6 +207,45 @@ copyStatic = do
 	copyFile "static/ttf/FiraCode-Regular.ttf" "docs/ttf/FiraCode-Regular.ttf"
 	copyFile "static/ttf/FiraCode-SemiBold.ttf" "docs/ttf/FiraCode-SemiBold.ttf"
 
+feedEntry :: Post -> F.Entry
+feedEntry post = F.Entry
+	{ F.entryId = fromString $ "https://olligobber.com/" <> path post
+	, F.entryTitle = F.TextString $ fromString $ title post
+	, F.entryUpdated = fromString $ formatTime defaultTimeLocale "%Y-%m-%d" $ date post
+	, F.entryAuthors = []
+	, F.entryCategories = []
+	, F.entryContent = Nothing
+	, F.entryContributor = []
+	, F.entryLinks = [F.nullLink $ fromString $ "https://olligobber.com/" <> path post]
+	, F.entryPublished = Nothing
+	, F.entryRights = Nothing
+	, F.entrySource = Nothing
+	, F.entrySummary = Just $ fromString $ description post
+	, F.entryInReplyTo = Nothing
+	, F.entryInReplyTotal = Nothing
+	, F.entryAttrs = []
+	, F.entryOther = []
+	}
+
+feed :: [Post] -> F.Feed
+feed posts = F.Feed
+	{ F.feedId = "https://olligobber.com/atom.xml"
+	, F.feedTitle = F.TextString "olligobber.com"
+	, F.feedUpdated = fromString $ formatTime defaultTimeLocale "%Y-%m-%d" $ date $ head posts
+	, F.feedAuthors = []
+	, F.feedCategories = []
+	, F.feedContributors = []
+	, F.feedGenerator = Nothing
+	, F.feedIcon = Just "https://olligobber.com/Logo.png"
+	, F.feedLinks = [F.nullLink "https://olligobber.com"]
+	, F.feedLogo = Just "https://olligobber.com/Logo.png"
+	, F.feedRights = Nothing
+	, F.feedSubtitle = Nothing
+	, F.feedEntries = feedEntry <$> posts
+	, F.feedAttrs = []
+	, F.feedOther = []
+	}
+
 main :: IO ()
 main = do
 	putStrLn "Starting setup of website"
@@ -201,4 +263,5 @@ main = do
 	writeFile "docs/tags/index.html" $ makeAllTags templates $ M.keys tagmap
 	writeTaggedPosts templates tagmap
 	foldMap (compilePost templates) posts
+	TIO.writeFile "docs/atom.xml" $ fromJust $ textFeed $ AtomFeed $ feed posts
 	putStrLn "Done!"
