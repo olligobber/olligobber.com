@@ -177,6 +177,12 @@ copyStatic = do
 	copyFile "static/style.css" "docs/style.css"
 	createDirectoryIfMissing False "docs/about"
 	copyFile "static/about_me.html" "docs/about/index.html"
+	createDirectoryIfMissing False "docs/ttf"
+	copyFile "static/ttf/FiraCode-Bold.ttf" "docs/ttf/FiraCode-Bold.ttf"
+	copyFile "static/ttf/FiraCode-Light.ttf" "docs/ttf/FiraCode-Light.ttf"
+	copyFile "static/ttf/FiraCode-Medium.ttf" "docs/ttf/FiraCode-Medium.ttf"
+	copyFile "static/ttf/FiraCode-Regular.ttf" "docs/ttf/FiraCode-Regular.ttf"
+	copyFile "static/ttf/FiraCode-SemiBold.ttf" "docs/ttf/FiraCode-SemiBold.ttf"
 
 main :: IO ()
 main = do

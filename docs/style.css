@@ -1,11 +1,42 @@
 @import url('https://fonts.googleapis.com/css2?family=Libertinus+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
 
+@font-face {
+	font-family: 'Fira Code';
+	src: url('/ttf/FiraCode-Light.ttf') format('truetype');
+	font-weight: 300;
+}
+
+@font-face {
+	font-family: 'Fira Code';
+	src: url('/ttf/FiraCode-Regular.ttf') format('truetype');
+	font-weight: 400;
+}
+
+@font-face {
+	font-family: 'Fira Code';
+	src: url('/ttf/FiraCode-Medium.ttf') format('truetype');
+	font-weight: 500;
+}
+
+@font-face {
+	font-family: 'Fira Code';
+	src: url('/ttf/FiraCode-SemiBold.ttf') format('truetype');
+	font-weight: 600;
+}
+
+@font-face {
+	font-family: 'Fira Code';
+	src: url('/ttf/FiraCode-Bold.ttf') format('truetype');
+	font-weight: 700;
+}
+
+
 body
 {
 	padding-top: 2.6em;
 	margin: 0;
 	font-size: 0.4cm;
-	font-family: "Libertinus Serif";
+	font-family: "Libertinus Serif", serif;
 	color: #333;
 	width: 62.5vw;
 	overflow-x: hidden;
@@ -22,6 +53,11 @@ h3 a
 h3 a:hover
 {
 	text-decoration: underline;
+}
+
+code, pre
+{
+	font-family: "Fira Code", monospace;
 }
 
 nav
@@ -225,7 +261,7 @@ footer
 {
 	width: 100%;
 	text-align: center;
-	font-size: 0.5em;
+	font-size: 0.6em;
 	color: #777;
 	padding: 1em 0;
 }
