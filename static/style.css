@@ -129,11 +129,11 @@ nav a, nav a:visited
 	border-width: 0.2rem;
 	border-color: #333;
 	border-radius: 1rem;
-	padding: 1rem;
-	padding-bottom: 0.5rem;
+	padding: 0.5rem 1rem;
 	height: 3rem;
 	text-wrap: nowrap;
 	text-align: center;
+	align-content: center;
 	color: #333;
 	text-decoration: none;
 }
@@ -167,9 +167,15 @@ header
 	padding-top: 3rem;
 	padding-bottom: 2rem;
 	font-size: 3rem;
-	color: white;
+	color: #eee;
 	border-bottom: #333 solid;
 	text-shadow: 0 0 0.2rem #000;
+}
+
+@media (prefers-color-scheme: dark) {
+	header {
+		border-bottom: #eee solid;
+	}
 }
 
 header img
