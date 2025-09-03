@@ -11,7 +11,7 @@ I just made a new website! Here I'll be posting about my maths and programming p
 ```
 - Inline maths: $P > Q = not (P -> Q)$
 - Block maths: $ sum_(i=1)^n (i^3) = (sum_(i=1)^n i)^2 $
-- Diagrams: #block-svg(canvas({
+- Diagrams: #block-svg(scale(x: 200%, y: 200%, canvas({
 	import draw: *
 	let row1 = ((1,1), (1,2), (1,3))
 	let row2 = ((2,1), (2,3))
@@ -35,7 +35,7 @@ I just made a new website! Here I'll be posting about my maths and programming p
 	for c in row2 + row4 {
 		circle(c, radius: .1, fill:red, stroke: none)
 	}
-}))
+})))
 and all of this in a typesetting language that is nice to use.
 
 #parbreak()
