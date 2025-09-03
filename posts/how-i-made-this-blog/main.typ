@@ -19,21 +19,21 @@ I just made a new website! Here I'll be posting about my maths and programming p
 	let row4 = ((4,1), (4,2), (4,3))
 	for c in row1 {
 		for d in row2 {
-			line(c,d)
+			line(stroke: rgb(0x33, 0x33, 0x33), c,d)
 		}
 	}
-	line((2,1),(3,1))
-	line((2,3),(3,3))
+	line(stroke: rgb(0x33, 0x33, 0x33), (2,1),(3,1))
+	line(stroke: rgb(0x33, 0x33, 0x33), (2,3),(3,3))
 	for c in row3 {
 		for d in row4 {
-			line(c,d)
+			line(stroke: rgb(0x33, 0x33, 0x33), c,d)
 		}
 	}
 	for c in row1 + row3 {
-		circle(c, radius: .1, fill: blue, stroke: none)
+		circle(c, radius: .15, fill: blue, stroke: none)
 	}
 	for c in row2 + row4 {
-		circle(c, radius: .1, fill:red, stroke: none)
+		circle(c, radius: .15, fill:red, stroke: none)
 	}
 })))
 and all of this in a typesetting language that is nice to use.

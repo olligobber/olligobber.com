@@ -43,10 +43,33 @@ body
 	text-align: justify;
 }
 
-h3 a
+@media (prefers-color-scheme: dark) {
+	body {
+		color: #eee;
+		background-color: #111;
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	a {
+		color: #5053ff;
+	}
+
+	a:visited {
+		color: #9051c6;
+	}
+}
+
+h3 a, h3 a:visited
 {
 	color: #333;
 	text-decoration: none;
+}
+
+@media (prefers-color-scheme: dark) {
+	h3 a, h3 a:visited {
+		color: #eee;
+	}
 }
 
 h3 a:hover
@@ -76,6 +99,14 @@ nav
 	height: 5rem;
 	max-height: 5rem;
 	overflow-y: hidden;
+	z-index: 9;
+}
+
+@media (prefers-color-scheme: dark) {
+	nav {
+		background-color: #560056;
+		border-bottom: #eee solid;
+	}
 }
 
 @media(max-width: 962px) {
@@ -90,10 +121,10 @@ nav
 	}
 }
 
-nav a
+nav a, nav a:visited
 {
 	display: block;
-	background-color: white;
+	background-color: #fff;
 	border-style: solid;
 	border-width: 0.2rem;
 	border-color: #333;
@@ -105,6 +136,14 @@ nav a
 	text-align: center;
 	color: #333;
 	text-decoration: none;
+}
+
+@media (prefers-color-scheme: dark) {
+	nav a, nav a:visited {
+		background-color: #111;
+		color: #eee;
+		border-color: #eee;
+	}
 }
 
 nav a:hover
@@ -130,7 +169,7 @@ header
 	font-size: 3rem;
 	color: white;
 	border-bottom: #333 solid;
-	text-shadow: 0 0 0.2rem black;
+	text-shadow: 0 0 0.2rem #000;
 }
 
 header img
@@ -168,10 +207,16 @@ main
 	padding-bottom: 2rem;
 }
 
-.post a
+.post a, .post a:visited
 {
 	color: #333;
 	text-decoration: none;
+}
+
+@media (prefers-color-scheme: dark) {
+	.post a, .post a:visited {
+		color: #eee;
+	}
 }
 
 .post a:hover
@@ -209,7 +254,7 @@ main
 	gap: 1rem;
 }
 
-.tag
+.tag, .tag:visited
 {
 	background-color: #d57fd5;
 	border-color: #333;
@@ -220,6 +265,14 @@ main
 	font-size: 1.5rem;
 	color: #333;
 	text-decoration: none;
+}
+
+@media (prefers-color-scheme: dark) {
+	.tag, .tag:visited {
+		background-color: #560056;
+		border-color: #eee;
+		color: #eee;
+	}
 }
 
 .tag:hover
@@ -249,6 +302,13 @@ h2:has(.tag)
 	text-decoration: none;
 }
 
+@media (prefers-color-scheme: dark) {
+	.more {
+		border-color: #eee;
+		color: #eee;
+	}
+}
+
 .more:hover
 {
 	text-decoration: underline;
@@ -268,6 +328,12 @@ h2:has(.tag)
 {
 	text-align: center;
 	padding: 2rem;
+}
+
+@media (prefers-color-scheme: dark) {
+	svg {
+		filter: invert() hue-rotate(180deg) brightness(calc(14/12));
+	}
 }
 
 footer
