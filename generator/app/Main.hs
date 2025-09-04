@@ -190,23 +190,6 @@ compilePost templates post = do
 		postPage templates
 	removeFile ("posts/" <> path post <> "/main.html")
 
--- Copy all the static files to the right places
-copyStatic :: IO ()
-copyStatic = do
-	createDirectoryIfMissing False "docs"
-	copyFile "static/404.html" "docs/404.html"
-	copyFile "static/CNAME" "docs/CNAME"
-	copyFile "static/Logo.png" "docs/Logo.png"
-	copyFile "static/style.css" "docs/style.css"
-	createDirectoryIfMissing False "docs/about"
-	copyFile "static/about_me.html" "docs/about/index.html"
-	createDirectoryIfMissing False "docs/ttf"
-	copyFile "static/ttf/FiraCode-Bold.ttf" "docs/ttf/FiraCode-Bold.ttf"
-	copyFile "static/ttf/FiraCode-Light.ttf" "docs/ttf/FiraCode-Light.ttf"
-	copyFile "static/ttf/FiraCode-Medium.ttf" "docs/ttf/FiraCode-Medium.ttf"
-	copyFile "static/ttf/FiraCode-Regular.ttf" "docs/ttf/FiraCode-Regular.ttf"
-	copyFile "static/ttf/FiraCode-SemiBold.ttf" "docs/ttf/FiraCode-SemiBold.ttf"
-
 feedEntry :: Post -> F.Entry
 feedEntry post = F.Entry
 	{ F.entryId = fromString $ "https://olligobber.com/" <> path post
@@ -254,7 +237,6 @@ main = do
 		Left e -> error $ "Error reading list of posts in posts/list:\n" <> e
 		Right x -> pure x
 	templates <- loadTemplates
-	copyStatic
 	writeFile "docs/index.html" $ makeHomePage templates posts
 	createDirectoryIfMissing False "docs/posts"
 	writeFile "docs/posts/index.html" $ makeAllPosts templates posts
