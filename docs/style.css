@@ -35,7 +35,7 @@ body
 {
 	padding-top: 5rem;
 	margin: 0;
-	font-size: 1.8rem;
+	font-size: 1.7rem;
 	font-family: "Libertinus Serif", serif;
 	color: #333;
 	width: 100vw;
@@ -48,6 +48,21 @@ body
 		color: #eee;
 		background-color: #111;
 	}
+}
+
+h1
+{
+	font-size: 5rem;
+}
+
+h2
+{
+	font-size: 3rem;
+}
+
+h3
+{
+	font-size: 2.2rem;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -109,7 +124,7 @@ nav
 	}
 }
 
-@media(max-width: 962px) {
+@media(max-width: 927px) {
 	body
 	{
 		padding-top: 10rem;
