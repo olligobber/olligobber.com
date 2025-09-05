@@ -83,6 +83,6 @@ $(addsuffix /index.html,$(addprefix docs/tag/,$(tags))) &: \
 
 	generator/exe/sitegenerator
 
-typst_build/%.html: posts/%/main.typ posts/%/template.typ
+typst_build/%.html: posts/%/main.typ templates/template.typ
 	-mkdir -p typst_build
 	typst c --features html --format html $< $@
