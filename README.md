@@ -1,6 +1,4 @@
-demo contains temporary files for demonstration purposes
-
-generator contains code to generate the whole site using haskell
+generator contains code to generate parts of the site using haskell
 
 static contains static content to be served as is
 
@@ -8,4 +6,6 @@ templates contains template html pages, with markers for where content is to be 
 
 posts contains all the posts and their metadata
 
-docs contains the generated result
+typst_build contains partly built posts
+
+docs contains the generated website

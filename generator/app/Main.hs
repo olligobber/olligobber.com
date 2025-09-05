@@ -12,8 +12,7 @@ import Data.String (fromString)
 import qualified Data.Text.Lazy.IO as TIO
 import Data.Time.Calendar.OrdinalDate (Day)
 import Data.Time.Format (formatTime, defaultTimeLocale, parseTimeM)
-import System.Directory (copyFile, createDirectoryIfMissing, removeFile)
-import System.Process (callProcess)
+import System.Directory (createDirectoryIfMissing, removeFile)
 import qualified Text.Atom.Feed as F
 import Text.Feed.Export (textFeed)
 import Text.Feed.Types (Feed(AtomFeed))
@@ -170,15 +169,7 @@ extractBody = head . splitOn "</body>" . head . tail . splitOn "<body>"
 
 compilePost :: Templates -> Post -> IO ()
 compilePost templates post = do
-	callProcess "typst"
-		[ "c"
-		, "--features"
-		, "html"
-		, "--format"
-		, "html"
-		, "posts/" <> path post <> "/main.typ"
-		]
-	html <- extractBody <$> readFile ("posts/" <> path post <> "/main.html")
+	html <- extractBody <$> readFile ("typst_build/" <> path post <> ".html")
 	createDirectoryIfMissing True $ "docs/" <> path post
 	writeFile ("docs/" <> path post <> "/index.html") $
 		substitute "{title}" (title post) $
@@ -188,7 +179,6 @@ compilePost templates post = do
 		substitute "{description}" (description post) $
 		substitute "{content}" html $
 		postPage templates
-	removeFile ("posts/" <> path post <> "/main.html")
 
 feedEntry :: Post -> F.Entry
 feedEntry post = F.Entry
@@ -231,7 +221,6 @@ feed posts = F.Feed
 
 main :: IO ()
 main = do
-	putStrLn "Starting setup of website"
 	parsedPosts <- parsePosts <$> readFile "posts/list"
 	posts <- case parsedPosts of
 		Left e -> error $ "Error reading list of posts in posts/list:\n" <> e
