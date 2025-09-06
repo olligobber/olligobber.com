@@ -8,15 +8,72 @@ build-type: Simple
 common warnings
 	ghc-options: -Wall -Wno-tabs
 
-executable sitegenerator
+library
 	import: warnings
-	main-is: Main.hs
+	exposed-modules:
+		Lib,
 	build-depends:
 		base ^>= 4.17.2.0,
-		directory ^>= 1.3.9.0,
 		split ^>= 0.2.5,
 		containers ^>= 0.7,
-		process ^>= 1.6.26.1,
+		time ^>= 1.14,
+	hs-source-dirs: lib
+	default-language: Haskell2010
+
+executable homepage
+	import: warnings
+	main-is: HomePage.hs
+	build-depends:
+		base ^>= 4.17.2.0,
+		sitegenerator,
+	hs-source-dirs: app
+	default-language: Haskell2010
+
+executable allposts
+	import: warnings
+	main-is: AllPosts.hs
+	build-depends:
+		base ^>= 4.17.2.0,
+		sitegenerator,
+	hs-source-dirs: app
+	default-language: Haskell2010
+
+executable tags
+	import: warnings
+	main-is: Tags.hs
+	build-depends:
+		base ^>= 4.17.2.0,
+		sitegenerator,
+		containers ^>= 0.7,
+	hs-source-dirs: app
+	default-language: Haskell2010
+
+executable taggedposts
+	import: warnings
+	main-is: TaggedPosts.hs
+	build-depends:
+		base ^>= 4.17.2.0,
+		sitegenerator,
+		containers ^>= 0.7,
+	hs-source-dirs: app
+	default-language: Haskell2010
+
+executable post
+	import: warnings
+	main-is: Post.hs
+	build-depends:
+		base ^>= 4.17.2.0,
+		sitegenerator,
+		split ^>= 0.2.5,
+	hs-source-dirs: app
+	default-language: Haskell2010
+
+executable feed
+	import: warnings
+	main-is: Feed.hs
+	build-depends:
+		base ^>= 4.17.2.0,
+		sitegenerator,
 		feed ^>= 1.3.2.1,
 		time ^>= 1.14,
 		text ^>= 2.1.3,
