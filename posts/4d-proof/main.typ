@@ -9,11 +9,11 @@
 
 #let Area = "Area"
 
-#let Volume = "Volume"
+#let Volume = "Vol"
 
 #let pad-normal = pad.with(rest: 0.15em)
 
-#let pad-small = pad.with(bottom: 0.3em, top: 0.1em, rest: 0.15em)
+#let pad-small = pad.with(bottom: 0.3em, rest: 0.15em)
 
 #let pad-op = pad.with(left: 1em, right: 1em)
 
@@ -149,28 +149,6 @@
 	)
 }
 
-// #let cube(
-// 	tl: (0,2),
-// 	br: (2,0),
-// 	dz: (1, 0.5),
-// 	dimensions: pad-small($n$),
-// 	left-gutter: 0.3,
-// 	bottom-gutter: 0.3,
-// 	z-gutter: 0.3,
-// ) = {
-// 	import draw: line
-
-// 	let (left, top) = tl
-// 	let (right, bottom) = br
-// 	let (dx, dy) = dz
-
-// 	rectangle(tl: tl, br: br, height: dimensions, width: dimensions, left-gutter: left-gutter, bottom-gutter: bottom-gutter)
-
-// 	line(tl, (left + dx, top + dy), (right + dx, top + dy), (right, top))
-// 	line((right + dx, top + dy), (right + dx, bottom + dy))
-// 	interval(tl: br, br: (right + dx, bottom + dy), dimensions: dimensions, gutter: z-gutter)
-// }
-
 I stumbled across a fun numerical result.
 
 $ (sum_(i=1)^n i)^2 = sum_(i=1)^n i^3 $
@@ -290,13 +268,80 @@ $
 	=
 	Volume(
 		sum_(i=1)^n (
-			#pad-normal(canvas(rectangle(br: (1,0), height: pad-small($i$), width: pad-small($1$))))
+			#pad-normal(canvas(rectangle(tl: (0,1.5), height: pad-small($1$), width: pad-small($i$))))
 			times
 			#pad-normal(canvas(rectangle( height: pad-small($i$), width: pad-small($i$))))
-			// #pad-normal(canvas(interval(dimensions: pad-small($1$))))
-			// times
-			// #pad-normal(canvas(cube(dimensions: pad-small($i$))))
 		)
 	)
 	.
+$
+
+This can't be visualised as a four dimensional shape, because our minds don't have the intuition for that. However, we can still do rotations and cutting and gluing of four dimensional shapes by doing the operations on the two dimensional shapes, though we may need a little bit of algebra, and some induction to handle the sum of cubes on the right hand side.
+
+So let's begin.
+
+$ (sum_(i=1)^n i)^2
+	&= Volume(
+		#pad-normal(canvas(step-shape()))
+		times
+		#pad-normal(canvas(step-shape()))
+	) \
+	&= Volume(
+		#pad-normal(canvas({
+			import draw: line
+			step-shape()
+			line((0,0.4), (1.6, 0.4))
+		}))
+		times
+		#pad-normal(canvas(step-shape()))
+	) \
+	&= Volume(
+		(
+			#pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6)))
+			+
+			#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5))))
+		)
+		times
+		#pad-normal(canvas(step-shape()))
+	)
+$
+
+Here we have just cut off one of the rows of the bottom of the stairs. Next we will use distributivity, $(a + b) times c = a times c + b times c$.
+
+$ (sum_(i=1)^n i)^2
+	&= Volume(#block($
+		#pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6)))
+		times
+		#pad-normal(canvas(step-shape())) \
+		+ \
+		#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5))))
+		times
+		#pad-normal(canvas(step-shape()))
+	$)) \
+	&= Volume(#block($
+		#pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6)))
+		times
+		(
+			#pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6)))
+			+
+			#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5))))
+		) \
+		+ \
+		#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5))))
+		times
+		#pad-normal(canvas(step-shape()))
+	$)) \
+	&= Volume(#block($
+		#pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6)))
+		times
+		#pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6))) \
+		+ \
+		#pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6)))
+		times
+		#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5)))) \
+		+ \
+		#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5))))
+		times
+		#pad-normal(canvas(step-shape()))
+	$))
 $
