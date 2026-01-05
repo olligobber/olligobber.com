@@ -310,38 +310,154 @@ Here we have just cut off one of the rows of the bottom of the stairs. Next we w
 
 $ (sum_(i=1)^n i)^2
 	&= Volume(#block($
-		#pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6)))
+		& #pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6)))
 		times
 		#pad-normal(canvas(step-shape())) \
-		+ \
+		+&
 		#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5))))
 		times
 		#pad-normal(canvas(step-shape()))
 	$)) \
 	&= Volume(#block($
-		#pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6)))
+		& #pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6)))
 		times
 		(
 			#pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6)))
 			+
 			#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5))))
 		) \
-		+ \
+		+&
 		#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5))))
 		times
 		#pad-normal(canvas(step-shape()))
 	$)) \
 	&= Volume(#block($
-		#pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6)))
+		& #pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6)))
 		times
 		#pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6))) \
-		+ \
+		+&
 		#pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6)))
 		times
 		#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5)))) \
-		+ \
+		+&
+		#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5))))
+		times
+		#pad-normal(canvas(step-shape()))
+	$)) \
+	&= Volume(#block($
+		& #pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6)))
+		times
+		#pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6))) \
+		+&
+		#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5))))
+		times
+		#pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6))) \
+		+&
 		#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5))))
 		times
 		#pad-normal(canvas(step-shape()))
 	$))
 $
+
+That last step might need some explanation. It looks like a simple instance of multiplication commuting, $a times b = b times a$, but geometrically, it is actually a rotation. If the left part of the product is in the $w - x$ plane and the right part is in the $y - z$ plane, then we have swapped the $w$ and $y$ axes, which is a reflection through the $w + y = 0$ hyperplane, and swapped the $x$ and $z$ axes, which is a reflection through the $x + z = 0$ hyperplane. The composition of two reflections is a rotation. Moving on.
+
+$
+	(sum_(i=1)^n i)^2
+	&= Volume(#block($
+		& #pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6)))
+		times
+		#pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6))) \
+		+&
+		#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5))))
+		times
+		(
+			#pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6)))
+			+
+			#pad-normal(canvas(step-shape()))
+		)
+	$)) \
+	&= Volume(#block($
+		& #pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6)))
+		times
+		#pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6))) \
+		+&
+		#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5))))
+		times
+		(
+			#pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6)))
+			+
+			#pad-normal(canvas(step-shape(tl: (2,0), br: (0,2))))
+		)
+	$)) \
+	&= Volume(#block($
+		& #pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6)))
+		times
+		#pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6))) \
+		+&
+		#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5))))
+		times
+		#pad-normal(canvas({
+			import draw: line
+			step-shape(tl: (2.5,0), br: (0,2.5))
+			line((2,0), (0,0), (0,2))
+			mark-dim((2,-0.3), (0,-0.3), pad-small($n-1$))
+			mark-dim((-0.6,2), (-0.6,0), pad-small($n-1$))
+		}))
+	$)) \
+	&= Volume(#block($
+		& #pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6)))
+		times
+		#pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6))) \
+		+&
+		#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5))))
+		times
+		#pad-normal(canvas(rectangle()))
+	$))
+$
+
+Now we repeatedly apply this same construction to the remaining product of stair-step shapes, gradually stripping off a layer of each stair and gluing them together into cubes, until we have a stack of cubes as required. Alternatively, we can view this as an induction, where the above is the main part of the inductive step. Either way, we have either the inductive hypothesis, or the result of repeated cutting and gluing, that
+
+$
+	Volume(
+		#pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6)))
+		times
+		#pad-normal(canvas(step-shape(dimensions: pad-small($n-1$), left-gutter: 0.6)))
+	)
+	=
+	Volume(
+		sum_(i=1)^(n-1)
+		(
+			#pad-normal(canvas(rectangle(height: pad-small($1$), width: pad-small($i$), tl: (0,1.5))))
+			times
+			#pad-normal(canvas(rectangle(height: pad-small($i$), width: pad-small($i$))))
+		)
+	)
+$
+
+which we can sub into the proof so far.
+
+$
+	(sum_(i=1)^n i)^2
+	&= Volume(#block($
+		& sum_(i=1)^(n-1)
+			(
+				#pad-normal(canvas(rectangle(height: pad-small($1$), width: pad-small($i$), tl: (0,1.5))))
+				times
+				#pad-normal(canvas(rectangle(height: pad-small($i$), width: pad-small($i$))))
+			) \
+		+&
+		#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5))))
+		times
+		#pad-normal(canvas(rectangle()))
+	$)) \
+	&= Volume(
+		sum_(i=1)^n (
+			#pad-normal(canvas(rectangle(height: pad-small($1$), width: pad-small($i$), tl: (0,1.5))))
+			times
+			#pad-normal(canvas(rectangle(height: pad-small($i$), width: pad-small($i$))))
+		)
+	) \
+	&= sum_(i=1)^n i^3
+$
+
+This is, as far as I know, the first visual proof of a four dimensional result, and a new perspective on a well know result.
