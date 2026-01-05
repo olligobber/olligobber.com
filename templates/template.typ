@@ -6,7 +6,5 @@
 
 #let styles(doc) = [
 	#set text(fill: rgb(0x33,0x33,0x33), size: 1.7em);
-	#show math.equation.where(block: false): inline-svg
-	#show math.equation.where(block: true): block-svg
 	#doc
 ]

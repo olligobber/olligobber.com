@@ -9,8 +9,8 @@ I just made a new website! Here I'll be posting about my maths and programming p
 	f :: Int -> String
 	f x = repeat x "a"
 ```
-- Inline maths: $P > Q = not (P -> Q)$
-- Block maths: $ sum_(i=1)^n (i^3) = (sum_(i=1)^n i)^2 $
+- Inline maths: #inline-svg($P > Q = not (P -> Q)$)
+- Block maths: #block-svg($ sum_(i=1)^n (i^3) = (sum_(i=1)^n i)^2 $)
 - Diagrams: #block-svg(scale(x: 200%, y: 200%, canvas({
 	import draw: *
 	let row1 = ((1,1), (1,2), (1,3))
