@@ -468,4 +468,4 @@ which we can sub into the proof so far.
 	&= sum_(i=1)^n i^3
 $)
 
-This is, as far as I know, the first visual proof of a four-dimensional result, and a new perspective on a well know result.
+This is, as far as I know, the first visual proof of a four-dimensional result, and a new perspective on a well known result.
