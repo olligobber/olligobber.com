@@ -155,7 +155,7 @@ I stumbled across a fun numerical result.
 
 #block-svg($ (sum_(i=1)^n i)^2 = sum_(i=1)^n i^3 $)
 
-I found this because of a user on #link("https://mathstodon.xyz")[mathstodon.xyz], #link("https://mathstodon.xyz/@SvenGeier")[\@SvenGeier], who has the display name "Σ(i³)~=~(Σi)²". It's a nice result, which can be proved fairly easily by induction and a little bit of algebra. What interested me though was finding a deeper understanding of why this result works.
+I found this because of a user on #link("https://mathstodon.xyz")[mathstodon.xyz], #link("https://mathstodon.xyz/@SvenGeier")[\@SvenGeier], who has the display name "Σ(i³)~=~(Σi)²". It's an unexpected and beautiful result, which can be proved fairly easily by induction and a little bit of algebra. What interested me though was finding a deeper understanding of why this result works.
 
 As an example of what I mean, let's turn to the slightly simpler result,
 
@@ -181,13 +181,13 @@ and see if we can understand it on a deeper level. This result is about what hap
 	).join()
 ))
 
-The total sum is then the total number of boxes, or if we say each box is #inline-svg($1 times 1$) and has an area of #inline-svg($1$), then it is the total area of this shape:
+The total sum is then the total number of boxes, or if we say each box is #inline-svg($1 times 1$) and has an area of #inline-svg($1,$) then it is the total area of this shape:
 
 #block-svg(canvas(step-shape()))
 
 Writing this as an equation, we have
 
-#block-svg($ sum_(i=1)^n i = Area(#canvas(step-shape())) $)
+#block-svg($ sum_(i=1)^n i = Area(#canvas(step-shape())). $)
 
 Doubling both sides and using some basic geometry, we get
 
@@ -202,13 +202,13 @@ Doubling both sides and using some basic geometry, we get
 	&= n (n+1),
 $)
 
-and so dividing both sides by #inline-svg($2$), we finally get
+and so dividing both sides by #inline-svg($2,$) we finally get
 
 #block-svg($ sum_(i=1)^n i = n(n+1)/2. $)
 
-This works nicely because we have a two dimensional way of interpreting this sum, and two dimensions are easier to visualise. However, the result I want to understand is four dimensional. One one side the have #inline-svg($(sum_(i=1)^n i)^2$), which is the square of our two dimensional sum, and on the other side we have #inline-svg($sum_(i=1)^n i^3$), which is a stack of three dimensional cubes, which we stack using a fourth dimension. So how on earth can we graph this?
+This works nicely because we have a two-dimensional way of interpreting this sum, and two dimensions are easier to visualise. However, the result I want to understand is four-dimensional. One one side the have #inline-svg($(sum_(i=1)^n i)^2$), which is the square of our two-dimensional sum, and on the other side we have #inline-svg($sum_(i=1)^n i^3$), which is a stack of three-dimensional cubes, which we stack using a fourth dimension. So how on earth can we graph this?
 
-The trick is that some four dimensional shapes are just the product of two two dimensional shapes. To illustrate this, notice that some two dimensional shapes are the product of two one dimensional shapes. For example these two one dimensional shapes have lengths #inline-svg($n$) and #inline-svg($n+1$),
+The trick is that some four-dimensional shapes are just the product of two two-dimensional shapes. To illustrate this, notice that some two-dimensional shapes are the product of two one-dimensional shapes. For example these two one-dimensional shapes have lengths #inline-svg($n$) and #inline-svg($n+1$),
 
 #block-svg($
 	#canvas(interval())
@@ -227,7 +227,7 @@ and their product has area #inline-svg($n(n+1)$),
 	#pad-op($.$)
 $)
 
-We can also use this to make three dimensional shapes:
+We can also use this to make three-dimensional shapes:
 
 #block-svg($
 	#canvas({
@@ -254,7 +254,7 @@ We can also use this to make three dimensional shapes:
 	#pad-op($.$)
 $)
 
-As well as multiplying shapes, we can add them as we saw above. This allows us to create four dimensional shapes using just two dimensional shapes, which we can easily visualise.
+As well as multiplying shapes, we can add them as we saw above. This allows us to create certain four-dimensional shapes using just two-dimensional shapes, which we can more easily visualise.
 
 Thus the thing we want to prove,
 
@@ -279,7 +279,7 @@ becomes the geometric result,
 	.
 $)
 
-This can't be visualised as a four dimensional shape, because our minds don't have the intuition for that. However, we can still do rotations and cutting and gluing of four dimensional shapes by doing the operations on the two dimensional shapes, though we may need a little bit of algebra, and some induction to handle the sum of cubes on the right hand side.
+This can't be visualised as a four-dimensional shape, because our minds don't have the intuition for that. However, we can still do rotations and cutting and gluing of four-dimensional shapes by doing the operations on the two-dimensional shapes, though we may need a little bit of algebra, and some induction to handle the sum of cubes on the right hand side.
 
 #parbreak()
 
@@ -295,7 +295,7 @@ So let's begin.
 		#pad-normal(canvas({
 			import draw: line
 			step-shape()
-			line((0,0.4), (1.6, 0.4))
+			line((0,0.6), (2.4, 0.6))
 		}))
 		times
 		#pad-normal(canvas(step-shape()))
@@ -311,7 +311,7 @@ So let's begin.
 	)
 $)
 
-Here we have just cut off one of the rows of the bottom of the stairs. Next we will use distributivity, #inline-svg($(a + b) times c = a times c + b times c$).
+Here we have just cut off one of the rows of the bottom of the stairs. Next we will use distributivity, #inline-svg($(a + b) times c = a times c + b times c.$)
 
 #block-svg($ (sum_(i=1)^n i)^2
 	&= Volume(#block($
@@ -364,7 +364,11 @@ Here we have just cut off one of the rows of the bottom of the stairs. Next we w
 	$))
 $)
 
-That last step might need some explanation. It looks like a simple instance of multiplication commuting, #inline-svg($a times b = b times a$), but geometrically, it is actually a rotation. If the left part of the product is in the #inline-svg($w - x$) plane and the right part is in the #inline-svg($y - z$) plane, then we have swapped the #inline-svg($w$) and #inline-svg($y$) axes, which is a reflection through the #inline-svg($w + y = 0$) hyperplane, and swapped the #inline-svg($x$) and #inline-svg($z$) axes, which is a reflection through the #inline-svg($x + z = 0$) hyperplane. The composition of two reflections is a rotation. Moving on.
+That last step might need some explanation. It looks like a simple instance of multiplication commuting, #inline-svg($a times b = b times a,$) but geometrically, it is actually a rotation. If the left part of the product is in the #inline-svg($w - x$) plane and the right part is in the #inline-svg($y - z$) plane, then we have swapped the #inline-svg($w$) and #inline-svg($y$) axes, which is a reflection through the #inline-svg($w + y = 0$) hyperplane, and swapped the #inline-svg($x$) and #inline-svg($z$) axes, which is a reflection through the #inline-svg($x + z = 0$) hyperplane. The composition of two reflections is a rotation.
+
+#parbreak()
+
+Moving on.
 
 #block-svg($
 	(sum_(i=1)^n i)^2
@@ -464,4 +468,4 @@ which we can sub into the proof so far.
 	&= sum_(i=1)^n i^3
 $)
 
-This is, as far as I know, the first visual proof of a four dimensional result, and a new perspective on a well know result.
+This is, as far as I know, the first visual proof of a four-dimensional result, and a new perspective on a well know result.
