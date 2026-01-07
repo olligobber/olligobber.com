@@ -206,7 +206,7 @@ and so dividing both sides by #inline-svg($2,$) we finally get
 
 #block-svg($ sum_(i=1)^n i = n(n+1)/2. $)
 
-This works nicely because we have a two-dimensional way of interpreting this sum, and two dimensions are easier to visualise. However, the result I want to understand is four-dimensional. One one side the have #inline-svg($(sum_(i=1)^n i)^2$), which is the square of our two-dimensional sum, and on the other side we have #inline-svg($sum_(i=1)^n i^3$), which is a stack of three-dimensional cubes, which we stack using a fourth dimension. So how on earth can we graph this?
+This works nicely because we have a two-dimensional way of interpreting this sum, and two dimensions are easier to visualise. However, the result I want to understand is four-dimensional. On one side we have #inline-svg($(sum_(i=1)^n i)^2$), which is the square of our two-dimensional sum, and on the other side we have #inline-svg($sum_(i=1)^n i^3$), which is a stack of three-dimensional cubes, which we stack using a fourth dimension. So how on earth can we graph this?
 
 The trick is that some four-dimensional shapes are just the product of two two-dimensional shapes. To illustrate this, notice that some two-dimensional shapes are the product of two one-dimensional shapes. For example these two one-dimensional shapes have lengths #inline-svg($n$) and #inline-svg($n+1$),
 
