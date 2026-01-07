@@ -423,7 +423,7 @@ Moving on.
 	$))
 $)
 
-Now we repeatedly apply this same construction to the remaining product of stair-step shapes, gradually stripping off a layer of each stair and gluing them together into cubes, until we have a stack of cubes as required. Alternatively, we can view this as an induction, where the above is the main part of the inductive step. Either way, we have either the inductive hypothesis, or the result of repeated cutting and gluing, that
+Now we repeatedly apply this same construction to the remaining product of stair-step shapes, gradually stripping off a layer of each stair and gluing them together into cubes, until we have a stack of cubes as required. Alternatively, we can view this as an induction, where the above is the main part of the inductive step. Either way, from either the inductive hypothesis, or the result of repeated cutting and gluing, we have
 
 #block-svg($
 	Volume(
