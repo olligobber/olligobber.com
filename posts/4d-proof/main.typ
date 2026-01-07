@@ -19,48 +19,55 @@
 
 #let arrow = draw.line.with(mark: (end: "stealth", fill: black))
 
-#let mark-dim(start, end, dim) = {
+#let mark-dim(start, end, dim, arrows: true) = {
 	draw.content(
 		(start, 50%, end),
 		dim,
 		name: "dim"
 	)
 
-	arrow(
-		"dim",
-		start
-	)
-
-	arrow(
-		"dim",
-		end
-	)
+	if arrows {
+		arrow(
+			"dim",
+			start
+		)
+		arrow(
+			"dim",
+			end
+		)
+	}
 }
 
 #let steps(
 	tl: (0,3),
 	br: (3,0),
+	types: ("full", "full", "dotted", "full", "full"),
 ) = {
 	import draw: line
 
 	let (left, top) = tl
 	let (right, bottom) = br
-	let dx = (right - left)/5
-	let dy = (bottom - top)/5
+	let n = types.len()
+	let dx = (right - left)/n
+	let dy = (bottom - top)/n
 
-	for i in (0,1,3,4) {
-		line(
-			(left + i * dx, top + i * dy),
-			(left + (i + 1) * dx, top + i * dy),
-			(left + (i + 1) * dx, top + (i + 1) * dy),
-		)
+	for (i, t) in types.enumerate() {
+		if t == "full" {
+			line(
+				(left + i * dx, top + i * dy),
+				(left + (i + 1) * dx, top + i * dy),
+				(left + (i + 1) * dx, top + (i + 1) * dy),
+			)
+		} else if t == "dotted" {
+			line(
+				(left + i * dx, top + i * dy),
+				(left + (i + 1) * dx, top + (i + 1) * dy),
+				stroke: (dash: "dotted")
+			)
+		} else {
+			panic("Invalid step type")
+		}
 	}
-
-	line(
-		(left + 2 * dx, top + 2 * dy),
-		(left + 3 * dx, top + 3 * dy),
-		stroke: (dash: "dotted")
-	)
 }
 
 #let step-shape(
@@ -69,6 +76,7 @@
 	dimensions: pad-small($n$),
 	left-gutter: 0.35,
 	bottom-gutter: 0.35,
+	types: ("full", "full", "dotted", "full", "full"),
 ) = {
 	import draw: line
 
@@ -79,7 +87,7 @@
 
 	line(tl, (left, bottom), br)
 
-	steps(tl: tl, br: br)
+	steps(tl: tl, br: br, types: types)
 
 	mark-dim(
 		(left - dx * left-gutter, top),
@@ -94,7 +102,13 @@
 	)
 }
 
-#let n-1-step-shape = step-shape.with(left-gutter: 0.85, dimensions: pad-small($n-1$))
+#let n-1-step-shape = step-shape.with(
+	left-gutter: 0.85,
+	dimensions: pad-small($n-1$),
+	types: ("full", "full", "dotted", "full"),
+	tl: (0, 2.4),
+	br: (2.4, 0),
+	)
 
 #let interval(
 	tl: (0, 0),
@@ -148,6 +162,37 @@
 		(left, bottom + dy * bottom-gutter),
 		(right, bottom + dy * bottom-gutter),
 		width
+	)
+}
+
+#let rectangle-1(
+	tl: (0,0.6),
+	br: (3,0),
+	height: pad-small($1$),
+	width: pad-small($n$),
+	left-gutter: 0.35,
+	bottom-gutter: 0.35,
+) = {
+	import draw: line
+
+	let (left, top) = tl
+	let (right, bottom) = br
+	let dx = (right - left) / calc.abs(right - left)
+	let dy = (bottom - top) / calc.abs(bottom - top)
+
+	line(tl, (left, bottom), br, (right, top), tl)
+
+	mark-dim(
+		(left - dx * left-gutter, top),
+		(left - dx * left-gutter, bottom),
+		height,
+		arrows: false,
+	)
+
+	mark-dim(
+		(left, bottom + dy * bottom-gutter),
+		(right, bottom + dy * bottom-gutter),
+		width,
 	)
 }
 
@@ -271,9 +316,9 @@ becomes the geometric result,
 	=
 	Volume(
 		sum_(i=1)^n (
-			#pad-normal(canvas(rectangle(tl: (0,1.5), height: pad-small($1$), width: pad-small($i$))))
+			#pad-normal(canvas(rectangle-1(width: pad-small($i$))))
 			times
-			#pad-normal(canvas(rectangle( height: pad-small($i$), width: pad-small($i$))))
+			#pad-normal(canvas(rectangle(height: pad-small($i$), width: pad-small($i$))))
 		)
 	)
 	.
@@ -304,7 +349,7 @@ So let's begin.
 		(
 			#pad-normal(canvas(n-1-step-shape()))
 			+
-			#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5))))
+			#pad-normal(canvas(rectangle-1()))
 		)
 		times
 		#pad-normal(canvas(step-shape()))
@@ -319,7 +364,7 @@ Here we have just cut off one of the rows of the bottom of the stairs. Next we w
 		times
 		#pad-normal(canvas(step-shape())) \
 		+&
-		#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5))))
+		#pad-normal(canvas(rectangle-1()))
 		times
 		#pad-normal(canvas(step-shape()))
 	$)) \
@@ -329,10 +374,10 @@ Here we have just cut off one of the rows of the bottom of the stairs. Next we w
 		(
 			#pad-normal(canvas(n-1-step-shape()))
 			+
-			#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5))))
+			#pad-normal(canvas(rectangle-1()))
 		) \
 		+&
-		#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5))))
+		#pad-normal(canvas(rectangle-1()))
 		times
 		#pad-normal(canvas(step-shape()))
 	$)) \
@@ -343,9 +388,9 @@ Here we have just cut off one of the rows of the bottom of the stairs. Next we w
 		+&
 		#pad-normal(canvas(n-1-step-shape()))
 		times
-		#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5)))) \
+		#pad-normal(canvas(rectangle-1())) \
 		+&
-		#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5))))
+		#pad-normal(canvas(rectangle-1()))
 		times
 		#pad-normal(canvas(step-shape()))
 	$)) \
@@ -354,11 +399,11 @@ Here we have just cut off one of the rows of the bottom of the stairs. Next we w
 		times
 		#pad-normal(canvas(n-1-step-shape())) \
 		+&
-		#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5))))
+		#pad-normal(canvas(rectangle-1()))
 		times
 		#pad-normal(canvas(n-1-step-shape())) \
 		+&
-		#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5))))
+		#pad-normal(canvas(rectangle-1()))
 		times
 		#pad-normal(canvas(step-shape()))
 	$))
@@ -377,7 +422,7 @@ Moving on.
 		times
 		#pad-normal(canvas(n-1-step-shape())) \
 		+&
-		#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5))))
+		#pad-normal(canvas(rectangle-1()))
 		times
 		(
 			#pad-normal(canvas(n-1-step-shape()))
@@ -390,12 +435,12 @@ Moving on.
 		times
 		#pad-normal(canvas(n-1-step-shape())) \
 		+&
-		#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5))))
+		#pad-normal(canvas(rectangle-1()))
 		times
 		(
 			#pad-normal(canvas(n-1-step-shape()))
 			+
-			#pad-normal(canvas(step-shape(tl: (3.6,0), br: (0,3.6))))
+			#pad-normal(canvas(step-shape(tl: (3,0), br: (0,3))))
 		)
 	$)) \
 	&= Volume(#block($
@@ -403,13 +448,14 @@ Moving on.
 		times
 		#pad-normal(canvas(n-1-step-shape())) \
 		+&
-		#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5))))
+		#pad-normal(canvas(rectangle-1()))
 		times
 		#pad-normal(canvas({
 			import draw: line
-			step-shape(tl: (3.75,0), br: (0,3.75))
-			interval(tl: (0,0), br: (3,0), dimensions: pad-small($n - 1$), gutter: 0.35)
-			interval(tl: (0,3), br: (0,0), dimensions: pad-small($n - 1$), gutter: 0.8)
+			step-shape(tl: (3,0), br: (0,3))
+			n-1-step-shape()
+			// interval(tl: (0,0), br: (3,0), dimensions: pad-small($n - 1$), gutter: 0.35)
+			// interval(tl: (0,3), br: (0,0), dimensions: pad-small($n - 1$), gutter: 0.8)
 		}))
 	$)) \
 	&= Volume(#block($
@@ -417,7 +463,7 @@ Moving on.
 		times
 		#pad-normal(canvas(n-1-step-shape())) \
 		+&
-		#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5))))
+		#pad-normal(canvas(rectangle-1()))
 		times
 		#pad-normal(canvas(rectangle()))
 	$))
@@ -435,7 +481,7 @@ Now we repeatedly apply this same construction to the remaining product of stair
 	Volume(
 		sum_(i=1)^(n-1)
 		(
-			#pad-normal(canvas(rectangle(height: pad-small($1$), width: pad-small($i$), tl: (0,1.5))))
+			#pad-normal(canvas(rectangle-1(width: pad-small($i$))))
 			times
 			#pad-normal(canvas(rectangle(height: pad-small($i$), width: pad-small($i$))))
 		)
@@ -449,18 +495,18 @@ which we can sub into the proof so far.
 	&= Volume(#block($
 		& sum_(i=1)^(n-1)
 			(
-				#pad-normal(canvas(rectangle(height: pad-small($1$), width: pad-small($i$), tl: (0,1.5))))
+				#pad-normal(canvas(rectangle-1(width: pad-small($i$))))
 				times
 				#pad-normal(canvas(rectangle(height: pad-small($i$), width: pad-small($i$))))
 			) \
 		+&
-		#pad-normal(canvas(rectangle(height: pad-small($1$), tl: (0,1.5))))
+		#pad-normal(canvas(rectangle-1()))
 		times
 		#pad-normal(canvas(rectangle()))
 	$)) \
 	&= Volume(
 		sum_(i=1)^n (
-			#pad-normal(canvas(rectangle(height: pad-small($1$), width: pad-small($i$), tl: (0,1.5))))
+			#pad-normal(canvas(rectangle-1(width: pad-small($i$))))
 			times
 			#pad-normal(canvas(rectangle(height: pad-small($i$), width: pad-small($i$))))
 		)
