@@ -253,7 +253,123 @@ and so dividing both sides by #inline-svg($2,$) we finally get
 
 This works nicely because we have a two-dimensional way of interpreting this sum, and two dimensions are easier to visualise. However, the result I want to understand is four-dimensional. On one side we have #inline-svg($(sum_(i=1)^n i)^2$), which is the square of our two-dimensional sum, and on the other side we have #inline-svg($sum_(i=1)^n i^3$), which is a stack of three-dimensional cubes, which we stack using a fourth dimension. So how on earth can we graph this?
 
-The trick is that some four-dimensional shapes are just the product of two two-dimensional shapes. To illustrate this, notice that some two-dimensional shapes are the product of two one-dimensional shapes. For example these two one-dimensional shapes have lengths #inline-svg($n$) and #inline-svg($n+1$),
+The trick is that some for-dimensional shapes are just a product of two two-dimensional shapes. By product, I am referring to the cartesian product, which allows us to combine #inline-svg($n"-dimensional"$) and #inline-svg($m"-dimensional"$) coordinates into #inline-svg($(n+m)"-dimensional"$) coordinates. For example, one-dimensional coordinates are just numbers along a number line, but we can combine two to get a point in a plane.
+
+#block-svg($
+	#canvas({
+		import draw: line, circle, content
+
+		line((0, -3), (0, 3), mark: (end: "stealth", start: "stealth", fill: black))
+		line((0.1, 0), (-0.1, 0))
+		content((0, 3.5), $x$)
+		circle((0, 2), radius: 0.1, fill: black)
+		content((0.5, 2), $2$)
+	})
+	#pad-op($times$)
+	#canvas({
+		import draw: line, circle, content
+
+		line((0, -3), (0, 3), mark: (end: "stealth", start: "stealth", fill: black))
+		line((0.1, 0), (-0.1, 0))
+		content((0, 3.5), $y$)
+		circle((0, 1), radius: 0.1, fill: black)
+		content((0.5, 1), $1$)
+	})
+	#pad-op($=$)
+	#canvas({
+		import draw: line, circle, content
+
+		line((0, -3), (0, 3), mark: (end: "stealth", start: "stealth", fill: black))
+		content((0, 3.5), $y$)
+		line((-3, 0), (3, 0), mark: (end: "stealth", start: "stealth", fill: black))
+		content((3.5, 0), $x$)
+		circle((2, 1), radius: 0.1, fill: black)
+		content((2.5, 1.5), $(2, 1)$)
+	})
+$)
+
+Similarly, we can product one-dimensional points and two-dimensional points to get three-dimensional points.
+
+#block-svg($
+	#canvas({
+		import draw: line, circle, content
+
+		line((0, -3), (0, 3), mark: (end: "stealth", start: "stealth", fill: black))
+		line((0.1, 0), (-0.1, 0))
+		content((0, 3.5), $x$)
+		circle((0, -1), radius: 0.1, fill: black)
+		content((0.7, -1), $-1$)
+	})
+	#pad-op($times$)
+	#canvas({
+		import draw: line, circle, content
+
+		line((0, -3), (0, 3), mark: (end: "stealth", start: "stealth", fill: black))
+		content((0, 3.5), $z$)
+		line((-3, 0), (3, 0), mark: (end: "stealth", start: "stealth", fill: black))
+		content((3.5, 0), $y$)
+		circle((1, -2), radius: 0.1, fill: black)
+		content((1.5, -1.5), $(1, -2)$)
+	})
+	#pad-op($=$)
+	#canvas({
+		import draw: line, circle, content, ortho
+
+		ortho(x: 30deg, y: 60deg, {
+			line((-3, 0, 0), (3, 0, 0), mark: (end: "stealth", start: "stealth", fill: black))
+			content((3.5, 0, 0), $x$)
+			line((0, -3, 0), (0, 3, 0), mark: (end: "stealth", start: "stealth", fill: black))
+			content((0, 3.5, 0), $y$)
+			line((0, 0, -3), (0, 0, 3), mark: (end: "stealth", start: "stealth", fill: black))
+			content((0, 0, 3.5), $z$)
+			content((-1, 1, -2), canvas({circle((), radius: 0.1, fill: black)}))
+			content((-0.5, 1.5, -3), $(-1, 1, -2)$)
+		})
+	})
+$)
+
+We can continue this, writing four-dimensional points as a product of two two-dimensional points, but drawing it yields something that is hard to visualise.
+
+#block-svg($
+	#canvas({
+		import draw: line, circle, content
+
+		line((0, -3), (0, 3), mark: (end: "stealth", start: "stealth", fill: black))
+		content((0, 3.5), $x$)
+		line((-3, 0), (3, 0), mark: (end: "stealth", start: "stealth", fill: black))
+		content((3.5, 0), $w$)
+		circle((2, -1), radius: 0.1, fill: black)
+		content((2.5, -0.5), $(2, -1)$)
+	})
+	#pad-op($times$)
+	#canvas({
+		import draw: line, circle, content
+
+		line((0, -3), (0, 3), mark: (end: "stealth", start: "stealth", fill: black))
+		content((0, 3.5), $z$)
+		line((-3, 0), (3, 0), mark: (end: "stealth", start: "stealth", fill: black))
+		content((3.5, 0), $y$)
+		circle((1, -2), radius: 0.1, fill: black)
+		content((1.5, -1.5), $(1, -2)$)
+	})
+	#pad-op($=$)
+	#canvas({
+		import draw: line, circle, content
+
+		line((0, -3), (0, 3), mark: (end: "stealth", start: "stealth", fill: black))
+		content((0, 3.5), $w$)
+		line((-3, 0), (3, 0), mark: (end: "stealth", start: "stealth", fill: black))
+		content((3.5, 0), $x$)
+		line((-2, -1), (2, 1), mark: (end: "stealth", start: "stealth", fill: black))
+		content((2.5, 1.5), $y$)
+		line((-1, -2), (1, 2), mark: (end: "stealth", start: "stealth", fill: black))
+		content((1.5, 2.5), $z$)
+		circle((1.5, -2.25), radius: 0.1, fill: black)
+		content((2.5, -1.75), $(2, -1, 1, -2)$)
+	})
+$)
+
+It makes a lot of sense to draw four-dimensional points as a product of two-dimensional points, as drawing is a two-dimensional medium, and it aids a lot in visualising what is going on, as visualising four-dimensional space is practically impossible. Now we can generalise this way of drawing points to drawing shapes. A shape is just a collection of points, and so when we do the cartesian product of two shapes, we just take every cartesian product of pairs of points from those collections. This way our original shapes are the shadow of their product when light is shined at them from the right angle. This might be hard to imagine, so let's start with lower dimensions again. For a first example, notice that some two-dimensional shapes are the product of two one-dimensional shapes. For example these two one-dimensional shapes have lengths #inline-svg($n$) and #inline-svg($n+1$),
 
 #block-svg($
 	#canvas(interval())
@@ -299,13 +415,13 @@ We can also use this to make three-dimensional shapes:
 	#pad-op($.$)
 $)
 
-As well as multiplying shapes, we can add them as we saw above. This allows us to create certain four-dimensional shapes using just two-dimensional shapes, which we can more easily visualise.
+As well as multiplying shapes, we can add or glue them as we saw in the first proof. This allows us to create certain four-dimensional shapes using just two-dimensional shapes, which we can more easily visualise. The important facts about cartesian products is that volumes multiply, so doing the product of a shape with volume #inline-svg($A$) and a shape with volume #inline-svg($B$) will result in a shape with volume #inline-svg($A times B$), and that rotating, cutting, and gluing the lower-dimensional shapes will have corresponding actions in the product shape, and preserve volume.
 
-Thus the thing we want to prove,
+Moving on to what we wanted to prove,
 
 #block-svg($ (sum_(i=1)^n i)^2 = sum_(i=1)^n i^3, $)
 
-becomes the geometric result,
+this becomes the geometric result,
 
 #block-svg($
 	Volume(
@@ -454,8 +570,6 @@ Moving on.
 			import draw: line
 			step-shape(tl: (3,0), br: (0,3))
 			n-1-step-shape()
-			// interval(tl: (0,0), br: (3,0), dimensions: pad-small($n - 1$), gutter: 0.35)
-			// interval(tl: (0,3), br: (0,0), dimensions: pad-small($n - 1$), gutter: 0.8)
 		}))
 	$)) \
 	&= Volume(#block($
