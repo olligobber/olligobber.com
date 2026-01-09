@@ -339,7 +339,7 @@ We can continue this, writing four-dimensional points as a product of two two-di
 		line((-3, 0), (3, 0), mark: (end: "stealth", start: "stealth", fill: black))
 		content((3.5, 0), $w$)
 		circle((2, -1), radius: 0.1, fill: black)
-		content((2.5, -0.5), $(2, -1)$)
+		content((2, -0.5), $(2, -1)$)
 	})
 	#pad-op($times$)
 	#canvas({
@@ -369,7 +369,7 @@ We can continue this, writing four-dimensional points as a product of two two-di
 	})
 $)
 
-It makes a lot of sense to draw four-dimensional points as a product of two-dimensional points, as drawing is a two-dimensional medium, and it aids a lot in visualising what is going on, as visualising four-dimensional space is practically impossible. Now we can generalise this way of drawing points to drawing shapes. A shape is just a collection of points, and so when we do the cartesian product of two shapes, we just take every cartesian product of pairs of points from those collections. This way our original shapes are the shadow of their product when light is shined at them from the right angle. This might be hard to imagine, so let's start with lower dimensions again. For a first example, notice that some two-dimensional shapes are the product of two one-dimensional shapes. For example these two one-dimensional shapes have lengths #inline-svg($n$) and #inline-svg($n+1$),
+It makes a lot of sense to draw four-dimensional points as a product of two-dimensional points, as drawing is a two-dimensional medium, and it aids a lot in visualising what is going on as we manipulate the shapes, as drawing four-dimensional manipulations would otherwise be difficult. Now we can generalise this way of drawing points to drawing shapes. A shape is just a collection of points, and so when we do the cartesian product of two shapes, we just take every cartesian product of pairs of points from those collections. This way our original shapes are the shadow of their product when light is shined at them from the right angle. This might be hard to imagine, so let's start with lower dimensions again. For a first example, notice that some two-dimensional shapes are the product of two one-dimensional shapes. For example these two one-dimensional shapes have lengths #inline-svg($n$) and #inline-svg($n+1$),
 
 #block-svg($
 	#canvas(interval())
@@ -415,7 +415,7 @@ We can also use this to make three-dimensional shapes:
 	#pad-op($.$)
 $)
 
-As well as multiplying shapes, we can add or glue them as we saw in the first proof. This allows us to create certain four-dimensional shapes using just two-dimensional shapes, which we can more easily visualise. The important facts about cartesian products is that volumes multiply, so doing the product of a shape with volume #inline-svg($A$) and a shape with volume #inline-svg($B$) will result in a shape with volume #inline-svg($A times B$), and that rotating, cutting, and gluing the lower-dimensional shapes will have corresponding actions in the product shape, and preserve volume.
+As well as multiplying shapes, we can add or glue them as we saw in the first proof. This allows us to create certain four-dimensional shapes using just two-dimensional shapes, which we can more easily manipulate in proofs. The important facts about cartesian products is that volumes multiply, so doing the product of a shape with volume #inline-svg($A$) and a shape with volume #inline-svg($B$) will result in a shape with volume #inline-svg($A times B$), and that rotating, cutting, and gluing the lower-dimensional shapes will have corresponding actions in the product shape, and preserve volume.
 
 Moving on to what we wanted to prove,
 
@@ -440,7 +440,7 @@ this becomes the geometric result,
 	.
 $)
 
-This can't be visualised as a four-dimensional shape, because our minds don't have the intuition for that. However, we can still do rotations and cutting and gluing of four-dimensional shapes by doing the operations on the two-dimensional shapes, though we may need a little bit of algebra, and some induction to handle the sum of cubes on the right hand side.
+This can't be drawn as a four-dimensional shape, because drawings are two-dimensional. However, we can still do rotations and cutting and gluing of four-dimensional shapes by doing the operations on the two-dimensional shapes, though we may need a little bit of algebra, and some induction to handle the sum of cube prisms on the right hand side. Note that the cube prisms are #inline-svg($n times n times n times 1$), a cube in three dimensions and extended in the fourth by a single unit so that all the shapes are four-dimensional, and we have a consistent meaning of volume.
 
 #parbreak()
 
