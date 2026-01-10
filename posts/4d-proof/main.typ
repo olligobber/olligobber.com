@@ -440,7 +440,7 @@ this becomes the geometric result,
 	.
 $)
 
-This can't be drawn as a four-dimensional shape, because drawings are two-dimensional. However, we can still do rotations and cutting and gluing of four-dimensional shapes by doing the operations on the two-dimensional shapes, though we may need a little bit of algebra, and some induction to handle the sum of cube prisms on the right hand side. Note that the cube prisms are #inline-svg($n times n times n times 1$), a cube in three dimensions and extended in the fourth by a single unit so that all the shapes are four-dimensional, and we have a consistent meaning of volume.
+This can't be drawn as a four-dimensional shape, because drawings are two-dimensional. However, we can still do rotations and cutting and gluing of four-dimensional shapes by doing the operations on the two-dimensional shapes, though we may need a little bit of algebra, and some induction to handle the sum of cube prisms on the right hand side. Note that the cube prisms are #inline-svg($n times n times n times 1,$) a cube in three dimensions and extended in the fourth by a single unit so that all the shapes are four-dimensional, and we have a consistent meaning of volume.
 
 #parbreak()
 
