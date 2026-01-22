@@ -9,8 +9,8 @@ I just made a new website! Here I'll be posting about my maths and programming p
 	f :: Int -> String
 	f x = repeat x "a"
 ```
-- Inline maths: #inline-svg($P > Q = not (P -> Q)$)
-- Block maths: #block-svg($ sum_(i=1)^n (i^3) = (sum_(i=1)^n i)^2 $)
+- Inline maths: $P > Q = not (P -> Q)$
+- Block maths: $ sum_(i=1)^n (i^3) = (sum_(i=1)^n i)^2 $
 - Diagrams: #block-svg(scale(x: 200%, y: 200%, canvas({
 	import draw: *
 	let row1 = ((1,1), (1,2), (1,3))
@@ -44,7 +44,7 @@ First, let's go over some history. My first few websites were cobbled together b
 
 #parbreak()
 
-Then, after complaining about #inline-svg(LaTeX), I was introduced to Typst, and quickly found that writing in it was actually enjoyable to write things in. I would use it for random ideas or trivial exercises, and so eventually I made the connection, what if I used it for my blog? It has HTML export, so how hard could it be?
+Then, after complaining about #inline-svg[#LaTeX,] I was introduced to Typst, and quickly found that using it made writing things actually enjoyable. I would use it for random ideas or trivial exercises, and so eventually I made the connection, what if I used it for my blog? It has HTML export, so how hard could it be?
 
 #parbreak()
 

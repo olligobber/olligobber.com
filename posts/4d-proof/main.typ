@@ -198,15 +198,15 @@
 
 I stumbled across a fun numerical result.
 
-#block-svg($ (sum_(i=1)^n i)^2 = sum_(i=1)^n i^3 $)
+$ (sum_(i=1)^n i)^2 = sum_(i=1)^n i^3 $
 
 I found this because of a user on #link("https://mathstodon.xyz")[mathstodon.xyz], #link("https://mathstodon.xyz/@SvenGeier")[\@SvenGeier], who has the display name "Σ(i³)~=~(Σi)²". It's an unexpected and beautiful result, which can be proved fairly easily by induction and a little bit of algebra. What interested me though was finding a deeper understanding of why this result works.
 
 As an example of what I mean, let's turn to the slightly simpler result,
 
-#block-svg($ sum_(i=1)^n i = (n(n+1))/2, $)
+$ sum_(i=1)^n i = (n(n+1))/2, $
 
-and see if we can understand it on a deeper level. This result is about what happens when you add up #inline-svg($i$) as #inline-svg($i$) varies from #inline-svg($1$) to #inline-svg($n$). We can graph this sum by having #inline-svg($n$) rows, one for each value of #inline-svg($i$), and putting #inline-svg($i$) boxes in each row.
+and see if we can understand it on a deeper level. This result is about what happens when you add up $i$ as $i$ varies from $1$ to $n$. We can graph this sum by having $n$ rows, one for each value of $i$, and putting $i$ boxes in each row.
 
 #block-svg(table(
 	rows: 2em,
@@ -226,17 +226,17 @@ and see if we can understand it on a deeper level. This result is about what hap
 	).join()
 ))
 
-The total sum is then the total number of boxes, or if we say each box is #inline-svg($1 times 1$) and has an area of #inline-svg($1,$) then it is the total area of this shape:
+The total sum is then the total number of boxes, or if we say each box is $1 times 1$ and has an area of $1,$ then it is the total area of this shape:
 
 #block-svg(canvas(step-shape()))
 
 Writing this as an equation, we have
 
-#block-svg($ sum_(i=1)^n i = Area(#canvas(step-shape())). $)
+$ sum_(i=1)^n i = Area(#canvas(step-shape())). $
 
 Doubling both sides and using some basic geometry, we get
 
-#block-svg($
+$
 	2 sum_(i=1)^n i
 	&= 2 Area(#canvas(step-shape())) \
 	&= Area(#canvas(step-shape())) + Area(#canvas(step-shape())) \
@@ -245,17 +245,17 @@ Doubling both sides and using some basic geometry, we get
 	&= Area(#canvas(step-shape() + step-shape(tl: (3.6, 0), br: (0.6, 3)))) \
 	&= Area(#pad-normal(canvas(rectangle(br:(3.6, 0), width: pad-small($n+1$))))) \
 	&= n (n+1),
-$)
+$
 
-and so dividing both sides by #inline-svg($2,$) we finally get
+and so dividing both sides by $2,$ we finally get
 
-#block-svg($ sum_(i=1)^n i = n(n+1)/2. $)
+$ sum_(i=1)^n i = n(n+1)/2. $
 
-This works nicely because we have a two-dimensional way of interpreting this sum, and two dimensions are easier to draw. However, the result I want to understand is four-dimensional. On one side we have #inline-svg($(sum_(i=1)^n i)^2$), which is the square of our two-dimensional sum, and on the other side we have #inline-svg($sum_(i=1)^n i^3$), which is a stack of three-dimensional cubes, which we stack using a fourth dimension. So how on earth can we graph this?
+This works nicely because we have a two-dimensional way of interpreting this sum, and two dimensions are easier to draw. However, the result I want to understand is four-dimensional. On one side we have $(sum_(i=1)^n i)^2$, which is the square of our two-dimensional sum, and on the other side we have $sum_(i=1)^n i^3$, which is a stack of three-dimensional cubes, which we stack using a fourth dimension. So how on earth can we graph this?
 
-The trick is that some four-dimensional shapes are just a product of two two-dimensional shapes. By product, I am referring to the cartesian product, which allows us to combine #inline-svg($n"-dimensional"$) and #inline-svg($m"-dimensional"$) coordinates into #inline-svg($(n+m)"-dimensional"$) coordinates. For example, one-dimensional coordinates are just numbers along a number line, but we can combine two to get a point in a plane.
+The trick is that some four-dimensional shapes are just a product of two two-dimensional shapes. By product, I am referring to the cartesian product, which allows us to combine $n"-dimensional"$ and $m"-dimensional"$ coordinates into $(n+m)"-dimensional"$ coordinates. For example, one-dimensional coordinates are just numbers along a number line, but we can combine two to get a point in a plane.
 
-#block-svg($
+$
 	#canvas({
 		import draw: line, circle, content
 
@@ -286,11 +286,11 @@ The trick is that some four-dimensional shapes are just a product of two two-dim
 		circle((2, 1), radius: 0.1, fill: black)
 		content((2.5, 1.5), $(2, 1)$)
 	})
-$)
+$
 
 Similarly, we can product one-dimensional points and two-dimensional points to get three-dimensional points.
 
-#block-svg($
+$
 	#canvas({
 		import draw: line, circle, content
 
@@ -326,11 +326,11 @@ Similarly, we can product one-dimensional points and two-dimensional points to g
 			content((-0.5, 1.5, -3), $(-1, 1, -2)$)
 		})
 	})
-$)
+$
 
 We can continue this, writing four-dimensional points as a product of two two-dimensional points, but drawing it yields something that is hard to draw.
 
-#block-svg($
+$
 	#canvas({
 		import draw: line, circle, content
 
@@ -367,30 +367,30 @@ We can continue this, writing four-dimensional points as a product of two two-di
 		circle((1.5, -2.25), radius: 0.1, fill: black)
 		content((2.5, -1.75), $(2, -1, 1, -2)$)
 	})
-$)
+$
 
-It makes a lot of sense to draw four-dimensional points as a product of two-dimensional points, as drawing is a two-dimensional medium, and it aids a lot in visualising what is going on as we manipulate the shapes, as drawing four-dimensional manipulations would otherwise be difficult. Now we can generalise this way of drawing points to drawing shapes. A shape is just a collection of points, and so when we do the cartesian product of two shapes, we just take every cartesian product of pairs of points from those collections. This way our original shapes are the shadow of their product when light is shined at them from the right angle. This might be hard to imagine, so let's start with lower dimensions again. For a first example, notice that some two-dimensional shapes are the product of two one-dimensional shapes. For example these two one-dimensional shapes have lengths #inline-svg($n$) and #inline-svg($n+1,$)
+It makes a lot of sense to draw four-dimensional points as a product of two-dimensional points, as drawing is a two-dimensional medium, and it aids a lot in visualising what is going on as we manipulate the shapes, as drawing four-dimensional manipulations would otherwise be difficult. Now we can generalise this way of drawing points to drawing shapes. A shape is just a collection of points, and so when we do the cartesian product of two shapes, we just take every cartesian product of pairs of points from those collections. This way our original shapes are the shadow of their product when light is shined at them from the right angle. This might be hard to imagine, so let's start with lower dimensions again. For a first example, notice that some two-dimensional shapes are the product of two one-dimensional shapes. For example these two one-dimensional shapes have lengths $n$ and $n+1,$
 
-#block-svg($
+$
 	#canvas(interval())
 	#h(3em)
 	#canvas(interval(dimensions: pad-small($n+1$), gutter: 0.85)),
-$)
+$
 
-and their product has area #inline-svg($n(n+1),$)
+and their product has area $n(n+1),$
 
-#block-svg($
+$
 	#canvas(interval())
 	#pad-op($times$)
 	#canvas(interval(dimensions: pad-small($n+1$), gutter: 0.85))
 	#pad-op($=$)
 	#canvas(rectangle(width: pad-small($n+1$), br: (3.6, 0)))
 	#pad-op($.$)
-$)
+$
 
 We can also use this to make three-dimensional shapes:
 
-#block-svg($
+$
 	#canvas({
 		step-shape()
 	})
@@ -413,17 +413,17 @@ We can also use this to make three-dimensional shapes:
 		interval(tl: (3, 0), br: (4.5, 0.75))
 	})
 	#pad-op($.$)
-$)
+$
 
-As well as multiplying shapes, we can add or glue them as we saw in the first proof. This allows us to create certain four-dimensional shapes using just two-dimensional shapes, which we can more easily manipulate in proofs. The important facts about cartesian products is that volumes multiply, so doing the product of a shape with volume #inline-svg($A$) and a shape with volume #inline-svg($B$) will result in a shape with volume #inline-svg($A times B,$) and that rotating, cutting, and gluing the lower-dimensional shapes will have corresponding actions in the product shape, and preserve volume.
+As well as multiplying shapes, we can add or glue them as we saw in the first proof. This allows us to create certain four-dimensional shapes using just two-dimensional shapes, which we can more easily manipulate in proofs. The important facts about cartesian products is that volumes multiply, so doing the product of a shape with volume $A$ and a shape with volume $B$ will result in a shape with volume $A times B,$ and that rotating, cutting, and gluing the lower-dimensional shapes will have corresponding actions in the product shape, and preserve volume.
 
 Moving on to what we wanted to prove,
 
-#block-svg($ (sum_(i=1)^n i)^2 = sum_(i=1)^n i^3, $)
+$ (sum_(i=1)^n i)^2 = sum_(i=1)^n i^3, $
 
 this becomes the geometric result,
 
-#block-svg($
+$
 	Volume(
 		#pad-normal(canvas(step-shape()))
 		times
@@ -438,15 +438,15 @@ this becomes the geometric result,
 		)
 	)
 	.
-$)
+$
 
-This can't be drawn as a four-dimensional shape, because drawings are two-dimensional. However, we can still do rotations and cutting and gluing of four-dimensional shapes by doing the operations on the two-dimensional shapes, though we may need a little bit of algebra, and some induction to handle the sum of cube prisms on the right hand side. Note that the cube prisms are #inline-svg($i times i times i times 1,$) a cube in three dimensions and extended in the fourth by a single unit so that all the shapes are four-dimensional, and we have a consistent meaning of volume.
+This can't be drawn as a four-dimensional shape, because drawings are two-dimensional. However, we can still do rotations and cutting and gluing of four-dimensional shapes by doing the operations on the two-dimensional shapes, though we may need a little bit of algebra, and some induction to handle the sum of cube prisms on the right hand side. Note that the cube prisms are $i times i times i times 1,$ a cube in three dimensions and extended in the fourth by a single unit so that all the shapes are four-dimensional, and we have a consistent meaning of volume.
 
 #parbreak()
 
 So let's begin.
 
-#block-svg($ (sum_(i=1)^n i)^2
+$ (sum_(i=1)^n i)^2
 	&= Volume(
 		#pad-normal(canvas(step-shape()))
 		times
@@ -470,11 +470,11 @@ So let's begin.
 		times
 		#pad-normal(canvas(step-shape()))
 	)
-$)
+$
 
-Here we have just cut off one of the rows of the bottom of the stairs. Next we will use distributivity, #inline-svg($(a + b) times c = a times c + b times c.$)
+Here we have just cut off one of the rows of the bottom of the stairs. Next we will use distributivity, $(a + b) times c = a times c + b times c.$
 
-#block-svg($ (sum_(i=1)^n i)^2
+$ (sum_(i=1)^n i)^2
 	&= Volume(#block($
 		& #pad-normal(canvas(n-1-step-shape()))
 		times
@@ -523,15 +523,15 @@ Here we have just cut off one of the rows of the bottom of the stairs. Next we w
 		times
 		#pad-normal(canvas(step-shape()))
 	$))
-$)
+$
 
-That last step might need some explanation. It looks like a simple instance of multiplication commuting, #inline-svg($a times b = b times a,$) but geometrically, it is actually a rotation. If the left part of the product is in the #inline-svg($w - x$) plane and the right part is in the #inline-svg($y - z$) plane, then we have swapped the #inline-svg($w$) and #inline-svg($y$) axes, which is a reflection through the #inline-svg($w + y = 0$) hyperplane, and swapped the #inline-svg($x$) and #inline-svg($z$) axes, which is a reflection through the #inline-svg($x + z = 0$) hyperplane. The composition of two reflections is a rotation.
+That last step might need some explanation. It looks like a simple instance of multiplication commuting, $a times b = b times a,$ but geometrically, it is actually a rotation. If the left part of the product is in the $w$-$x$ plane and the right part is in the $y$-$z$ plane, then we have swapped the $w$ and $y$ axes, which is a reflection through the $w + y = 0$ hyperplane, and swapped the $x$ and $z$ axes, which is a reflection through the $x + z = 0$ hyperplane. The composition of two reflections is a rotation.
 
 #parbreak()
 
 Moving on.
 
-#block-svg($
+$
 	(sum_(i=1)^n i)^2
 	&= Volume(#block($
 		& #pad-normal(canvas(n-1-step-shape()))
@@ -581,11 +581,11 @@ Moving on.
 		times
 		#pad-normal(canvas(rectangle()))
 	$))
-$)
+$
 
 Now we repeatedly apply this same construction to the remaining product of stair-step shapes, gradually stripping off a layer of each stair and gluing them together into cubes, until we have a stack of cubes as required. Alternatively, we can view this as an induction, where the above is the main part of the inductive step. Either way, from either the inductive hypothesis, or the result of repeated cutting and gluing, we have
 
-#block-svg($
+$
 	Volume(
 		#pad-normal(canvas(n-1-step-shape()))
 		times
@@ -600,11 +600,11 @@ Now we repeatedly apply this same construction to the remaining product of stair
 			#pad-normal(canvas(rectangle(height: pad-small($i$), width: pad-small($i$))))
 		)
 	)
-$)
+$
 
 which we can sub into the proof so far.
 
-#block-svg($
+$
 	(sum_(i=1)^n i)^2
 	&= Volume(#block($
 		& sum_(i=1)^(n-1)
@@ -626,6 +626,6 @@ which we can sub into the proof so far.
 		)
 	) \
 	&= sum_(i=1)^n i^3
-$)
+$
 
 This is, as far as I know, the first visual proof of a four-dimensional result, and a new perspective on a well known result.
