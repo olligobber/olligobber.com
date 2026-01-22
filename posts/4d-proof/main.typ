@@ -1,9 +1,5 @@
-#import "template.typ" : styles, block-svg, inline-svg, parbreak
+#import "template.typ" : styles, block-svg, parbreak
 #import "@preview/cetz:0.4.1": canvas, draw
-
-// #set page(height: auto)
-
-// #let block-svg(x) = align(center, x)
 
 #show: styles
 

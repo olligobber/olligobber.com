@@ -22,15 +22,22 @@
 	}
 }
 
-#let styles(doc) = [
-	#set text(fill: rgb(0x33,0x33,0x33), size: 1.7em);
-	#show math.equation.where(block: false): inline-svg
-	#show math.equation.where(block: true): it => context {
+#let styles(doc) = {
+	set text(fill: rgb(0x33,0x33,0x33), size: 1.7em);
+	show math.equation.where(block: false): inline-svg
+	show math.equation.where(block: true): it => context {
 		if target() == "html" {
 			block-svg(it)
 		} else {
 			it
 		}
 	}
-	#doc
-]
+	context{
+		if target() == "paged" {
+			set page(height: auto, paper: "a2")
+			doc
+		} else {
+			doc
+		}
+	}
+}
