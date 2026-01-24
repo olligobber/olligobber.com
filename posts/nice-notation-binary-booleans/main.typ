@@ -84,11 +84,7 @@ And that's all for operators I've seen when studying logic. But it feels like th
 
 #parbreak()
 
-Zachtronics released a game called Last Call BBS, which is essentially a collection of smaller games, one of which is called ChipWizard Professional. In this game, you are tasked with constructing fake electronic circuits, with one of the key tools being transistors made out of two types of silicon, N-Type and P-Type. I wanted to analyse what these transistors did, as boolean operators.
-
-#parbreak()
-
-One type of transistor, called NPN, was easy to model: applying charge to the P terminal connects the two N terminals, and if we take one of those N terminals as one input and the P terminal as the other input, then the transistor acts exactly like the "and" operator. The other one, called PNP, was more difficult: applying charge to the N terminal disconnects the two P terminals, so if we take one of those P terminals as one input and the N terminal as the other input, then we get the following operator:
+Zachtronics released a game as a part of Last Call BBS called ChipWizard Professional. In this game, you are tasked with constructing fake electronic circuits, with one of the key tools being transistors made out of two types of silicon, N-Type and P-Type. I wanted to analyse what these transistors did, as boolean operators. One type of transistor, called NPN, was easy to model: applying charge to the P terminal connects the two N terminals, and if we take one of those N terminals as one input and the P terminal as the other input, then the transistor acts exactly like the "and" operator. The other one, called PNP, was more difficult: applying charge to the N terminal disconnects the two P terminals, so if we take one of those P terminals as one input and the N terminal as the other input, then we get the following operator:
 
 #block-svg(truth-table(($P$, $N$), (p, q) => $#p "PNP" #q$, (p, q) => p and not q))
 
