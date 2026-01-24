@@ -18,7 +18,7 @@
 	if target() == "html" {
 		html.elem("div", [~])
 	} else {
-		[\ ]
+		[~]
 	}
 }
 

@@ -98,6 +98,19 @@ code, pre
 	font-family: "Fira Code", monospace;
 }
 
+strong
+{
+	color: #560056;
+}
+
+@media (prefers-color-scheme: dark)
+{
+	strong
+	{
+		color: #d57fd5
+	}
+}
+
 nav
 {
 	position: fixed;
@@ -354,7 +367,7 @@ h2:has(.tag)
 
 @media (prefers-color-scheme: dark) {
 	svg {
-		filter: invert() hue-rotate(180deg) brightness(calc(14/12));
+		filter: brightness(calc(12/14)) invert() hue-rotate(180deg);
 	}
 }
 
