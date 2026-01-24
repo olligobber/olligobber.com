@@ -98,6 +98,12 @@ code, pre
 	font-family: "Fira Code", monospace;
 }
 
+.no-lig
+{
+	display: inline;
+	font-variant-ligatures: none;
+}
+
 strong
 {
 	color: #560056;
@@ -367,7 +373,11 @@ h2:has(.tag)
 
 @media (prefers-color-scheme: dark) {
 	svg {
-		filter: brightness(calc(12/14)) invert() hue-rotate(180deg);
+		filter:
+			invert()
+			hue-rotate(180deg)
+			brightness(calc(15/12))
+			;
 	}
 }
 

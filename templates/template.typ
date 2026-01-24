@@ -22,6 +22,15 @@
 	}
 }
 
+#let no-lig(it) = context {
+	if target() == "html" {
+		html.elem("div", attrs: (class: "no-lig"), it)
+	} else {
+		show raw: set text(ligatures: false)
+		it
+	}
+}
+
 #let styles(doc) = {
 	set text(fill: rgb(0x33,0x33,0x33), size: 1.7em);
 	show math.equation.where(block: false): inline-svg
