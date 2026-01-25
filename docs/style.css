@@ -125,7 +125,7 @@ nav
 	}
 }
 
-@media(max-width: 927px) {
+@media(max-width: 1018px) {
 	body
 	{
 		padding-top: 10rem;
@@ -360,7 +360,7 @@ h2:has(.tag)
 
 footer
 {
-	width: 100%;
+	max-width: min(100%, 90rem);
 	text-align: center;
 	font-size: 1rem;
 	color: #777;
