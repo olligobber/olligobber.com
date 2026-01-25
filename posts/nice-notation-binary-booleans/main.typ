@@ -112,7 +112,23 @@ I didn't find this very satisfying, so the ten binary operators sat in my mind a
 
 What followed was a satisfying realisation. Suppose we build all ten binary operators using only wedges and arrows. See, $arrow.t$ is sometimes used to write "nand", and $arrow.b$ is sometimes used to write "nor". Also, if $->$ is the same as $<=,$ then $arrow.not$ is the same as $lt.eq.not,$ which is just $>,$ another wedge just like $and$ and $or.$ This hints at a possible rule: negating the output of a boolean operator turns arrows into wedges pointing the same direction, and vice versa. $and$ and $arrow.t$ are negations of each other, $or$ and $arrow.b$ are negations of each other, and $->$ and $>$ are negations of each other. Extending this rule, we get the obvious pair of $<-$ and $<,$ but also the non-obvious pair of $<->$ and $<>,$ which I often write as $#my_xor,$ omitting the space. Note that in some programming languages, #no-lig(`<>`) is a way of writing $!=,$ beautifully tying this all together.
 
-#parbreak()
+#block-svg(table(
+	columns: 2,
+	align: center,
+	[Verum], $top$,
+	[Falsum], $bot$,
+	[Not], $not$,
+	[And], $and$,
+	[Or], $or$,
+	[Implies], $->$,
+	[Equivalent], $<->$,
+	[Xor], my_xor,
+	[Nand], $arrow.t$,
+	[Nor], $arrow.b$,
+	[Implied], $<-$,
+	[Greater Than], $>$,
+	[Less Than], $<$,
+))
 
 Then one night, I came up with this diagram:
 
