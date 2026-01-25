@@ -30,7 +30,6 @@
 	font-weight: 700;
 }
 
-
 body
 {
 	padding-top: 5rem;
@@ -360,7 +359,7 @@ h2:has(.tag)
 
 footer
 {
-	max-width: min(100%, 90rem);
+	max-width: 100%;
 	text-align: center;
 	font-size: 1rem;
 	color: #777;
