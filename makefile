@@ -1,5 +1,5 @@
 posts := $(shell grep "^path:" < posts/list | sed "s/^path: //")
-tags := $(shell grep "^tags:" < posts/list | sed "s/^tags: //" | tr ' ' '\n' | sort | uniq -u)
+tags := $(shell grep "^tags:" < posts/list | sed "s/^tags: //" | tr ' ' '\n' | sort | uniq)
 
 all: static dynamic
 
@@ -10,6 +10,7 @@ clean:
 	rm -rf docs
 	rm -rf typst_build
 	cd generator && cabal clean
+	rm -rf generator/exe
 
 generator/exe/allposts \
 generator/exe/feed \
