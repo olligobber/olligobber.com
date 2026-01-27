@@ -52,7 +52,7 @@ Also, the "falsum" operator has an arity of zero, so it is called *nullary*:
 
 There are even operators with higher arity, such as the conditional operator with an arity of three, which is called *ternary*:
 
-#block-svg(truth-table(3, (p, q, r) => $#p #math.op($:$) #q #math.op($?$) #r$, (p, q, r) => if p { q } else { r } ))
+#block-svg(truth-table(3, (p, q, r) => $#p #math.op($?$) #q #math.op($:$) #r$, (p, q, r) => if p { q } else { r } ))
 
 The focus of this blog post will be on operators with arity two, or *binary* operators. As well as the "and" operator we saw above, most systems of logic include the "or", "implies", and "equivalent" operators:
 
